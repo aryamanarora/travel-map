@@ -77,6 +77,12 @@ function load(data, map, coords, map2, map3) {
         .attr("fill", "#aadafc")
     
     var g = svg.append("g")
+    function getVisibility(d) {
+        const visible = path(
+            {type: 'Point', coordinates: [coords[d[0]][1], coords[d[0]][0]]});
+        
+        return visible ? 'visible' : 'hidden';
+    }
 
     var g2 = svg.append("g")
 
@@ -200,9 +206,10 @@ function load(data, map, coords, map2, map3) {
             .append("circle")
                 .attr("cx", d => projection([coords[d[0]][1], coords[d[0]][0]])[0])
                 .attr("cy", d => projection([coords[d[0]][1], coords[d[0]][0]])[1])
-                .attr("r", d => (1 + 2 * Math.log(1 + d[1])))
+                .attr("r", d => (2 + 2 * Math.log(1 + d[1])))
                 .attr("fill", "red")
                 .attr("stroke", "black")
+                .attr('visibility', getVisibility)
                 .on("mouseover", d => {
                     console.log(d)
                     tooltip.style("left", d3.event.x + "px")
